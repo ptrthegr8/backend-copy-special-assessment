@@ -22,7 +22,6 @@ import argparse
 
 def get_special_paths(dir):
     cmd = 'ls -l ' + dir
-    print 'Command being run:', cmd
     (status, output) = commands.getstatusoutput(cmd)
     if status:
         sys.stderr.write(output)
