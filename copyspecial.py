@@ -33,8 +33,8 @@ def get_special_paths(dir):
 
 
 def copy_to(paths, dir):
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    if not os.path.exists(os.path.abspath(dir)):
+        os.makedirs(os.path.abspath(dir))
     for path in paths:
         shutil.copy(path, os.path.abspath(dir))
 
@@ -68,7 +68,6 @@ def main(args=None):
     # Parsing command line arguments is a must-have skill.
     # This is input data validation.If something is wrong (or missing) with any
     # required args, the general rule is to print a usage message and exit(1).
-
 
 if __name__ == "__main__":
     todir, tozip, from_dir = main(sys.argv[1:])
