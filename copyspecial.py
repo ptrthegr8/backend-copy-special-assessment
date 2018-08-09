@@ -33,6 +33,8 @@ def get_special_paths(dir):
 
 
 def copy_to(paths, dir):
+    if not os.path.exists(dir):
+        os.mkdir(dir)
     for path in paths:
         shutil.copy(path, os.path.abspath(dir))
 
