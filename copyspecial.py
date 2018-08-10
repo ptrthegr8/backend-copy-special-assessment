@@ -49,18 +49,28 @@ def zip_to(paths, zippath):
     print output
 
 
-def main(args=None):
+def main():
     # This snippet will help you get started with the argparse module.
     parser = argparse.ArgumentParser()
     parser.add_argument('--todir', help='dest dir for special files')
     parser.add_argument('--tozip', help='dest zipfile for special files')
     # TODO need an argument to pick up 'from_dir'
     parser.add_argument('from_dir', help='origin dir for special files')
-    results = parser.parse_args(args)
-
-    return (results.todir,
-            results.tozip,
-            results.from_dir)
+    results = parser.parse_args()
+    # If nothing at all, bail out
+    if not results:
+        parser.print_usage()
+        sys.exit(1)
+    todir = results.todir
+    from_dir = results.from_dir
+    tozip = results.tozip
+    special_paths = get_special_paths(from_dir)
+    if todir:
+        copy_to(special_paths, todir)
+    elif tozip:
+        zip_to(special_paths, tozip)
+    else:
+        print "\n".join(special_paths)
 
     # TODO you must write your own code to get the cmdline args.
     # Read the docs and examples for the argparse module about how to do this.
@@ -70,8 +80,4 @@ def main(args=None):
     # required args, the general rule is to print a usage message and exit(1).
 
 if __name__ == "__main__":
-    todir, tozip, from_dir = main(sys.argv[1:])
-    if todir and from_dir:
-        copy_to(get_special_paths(from_dir), todir)
-    if tozip and from_dir:
-        zip_to(get_special_paths(from_dir), tozip)
+   main()
